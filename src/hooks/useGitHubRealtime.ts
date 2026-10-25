@@ -177,8 +177,8 @@ const FALLBACK_REPOS: GitHubRepo[] = [
   },
 ];
 
-export function useGitHubRealtime(initialUsername: string = GITHUB_CONFIG.username) {
-  const [username, setUsername] = useState<string>(initialUsername);
+export function useGitHubRealtime() {
+  const username = GITHUB_CONFIG.username;
   const [profile, setProfile] = useState<GitHubUserProfile | null>(null);
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
   const [events, setEvents] = useState<GitHubEvent[]>([]);
@@ -257,7 +257,6 @@ export function useGitHubRealtime(initialUsername: string = GITHUB_CONFIG.userna
 
   return {
     username,
-    setUsername,
     profile,
     repos,
     events,

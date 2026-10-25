@@ -23,7 +23,6 @@ export const App: React.FC = () => {
   // Real-time GitHub data hook powered by configurable variable (no hardcoding)
   const {
     username,
-    setUsername,
     profile,
     repos,
     events,
@@ -64,7 +63,6 @@ export const App: React.FC = () => {
         isLive={isLive}
         onRefresh={refresh}
         loading={loading}
-        onUsernameChange={setUsername}
       />
 
       {/* 2. Main Content Stream */}
