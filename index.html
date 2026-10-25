@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="vi" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="https://github.com/tkiennt.png" />
+    
+    <!-- SEO Meta Tags -->
+    <title>Trung Kiên (@tkiennt) | Timeline Portfolio & GitHub Activity Hub</title>
+    <meta name="description" content="Portfolio cá nhân & Báo cáo hoạt động GitHub của Trung Kiên (@tkiennt) - Sinh viên Kỹ thuật Phần mềm Đại học FPT. 520+ commits, 34 repositories, timeline dự án thực tế." />
+    <meta name="author" content="Trung Kiên (@tkiennt)" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Trung Kiên (@tkiennt) | Timeline Portfolio & GitHub Activity Hub" />
+    <meta property="og:description" content="520+ commits, 89 merged pull requests across 34 repositories. Fullstack C#/.NET, React/TypeScript & Flutter Mobile." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://github.com/tkiennt.png" />
+    
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Prevent Theme Flash -->
+    <script>
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedTheme === 'dark' || (!storedTheme && systemDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body class="bg-[#F8F9FA] dark:bg-[#0B1120] text-slate-800 dark:text-slate-100 font-sans antialiased selection:bg-blue-500 selection:text-white transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
