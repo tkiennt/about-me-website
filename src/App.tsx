@@ -1,37 +1,72 @@
-import React from 'react';
-import { Header } from './components/Header';
-import { Hero } from './components/Hero';
-import { GitHubStats } from './components/GitHubStats';
-import { TimelineSection } from './components/TimelineSection';
-import { RepoExplorer } from './components/RepoExplorer';
-import { UpstreamSync } from './components/UpstreamSync';
-import { Footer } from './components/Footer';
+import React, { useState, useEffect } from "react";
+import { Navigation } from "./components/Navigation";
+import { Main } from "./components/Main";
+import { Expertise } from "./components/Expertise";
+import { Timeline } from "./components/Timeline";
+import { Project } from "./components/Project";
+import { GitHubStats } from "./components/GitHubStats";
+import { RepoExplorer } from "./components/RepoExplorer";
+import { UpstreamSync } from "./components/UpstreamSync";
+import { Contact } from "./components/Contact";
+import { Footer } from "./components/Footer";
+import FadeIn from "./components/FadeIn";
 
 export const App: React.FC = () => {
+  const [mode, setMode] = useState<string>("dark");
+
+  const handleModeChange = () => {
+    if (mode === "dark") {
+      setMode("light");
+      document.documentElement.classList.remove("dark");
+    } else {
+      setMode("dark");
+      document.documentElement.classList.add("dark");
+    }
+  };
+
+  useEffect(() => {
+    // Default to dark mode matching yujisatojr template aesthetic
+    document.documentElement.classList.add("dark");
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#FDFDFD] dark:bg-[#0B1120] text-slate-800 dark:text-slate-100 transition-colors duration-300">
-      {/* 1. Header Navigation */}
-      <Header />
+    <div
+      className={`main-container ${
+        mode === "dark" ? "dark-mode dark" : "light-mode"
+      }`}
+    >
+      {/* 1. Sticky Navigation */}
+      <Navigation mode={mode} onModeChange={handleModeChange} />
 
-      {/* Main Content Area */}
-      <main className="flex-grow">
-        {/* 2. Hero Section: Real Developer Profile & Executive Metrics */}
-        <Hero />
+      {/* 2. Main Content Wrapped in FadeIn Animation */}
+      <FadeIn transitionDuration={700}>
+        {/* Hero Section */}
+        <Main />
 
-        {/* 3. GitHub Activity & Live Contribution Analytics */}
+        {/* Expertise / Skills */}
+        <Expertise />
+
+        {/* Project Timeline (Central Requirement) */}
+        <Timeline />
+
+        {/* Featured Projects Showcase */}
+        <Project />
+
+        {/* GitHub Analytics & Live Contribution Heatmap */}
         <GitHubStats />
 
-        {/* 4. Signature Timeline: Developer Journey (ParamBirje inspired) */}
-        <TimelineSection />
-
-        {/* 5. All 34 Repositories Explorer */}
+        {/* All Repositories Explorer */}
         <RepoExplorer />
 
-        {/* 6. Upstream Synchronization Tracker */}
+        {/* Upstream Synchronization Tracker */}
         <UpstreamSync />
-      </main>
 
-      {/* 7. Footer */}
+        {/* Contact Section */}
+        <Contact />
+      </FadeIn>
+
+      {/* 3. Footer */}
       <Footer />
     </div>
   );
