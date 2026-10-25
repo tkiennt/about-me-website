@@ -1,86 +1,83 @@
-# 🚀 Trung Kiên (@tkiennt) — Timeline Portfolio & GitHub Activity Hub
+# Modern Minimalist Developer Portfolio
 
-> **Trang web cá nhân & Báo cáo Hoạt động GitHub Toàn diện của Trung Kiên (@tkiennt)**  
-> Sinh viên ngành Kỹ thuật Phần mềm (Software Engineering) - Đại học FPT.  
-> Được xây dựng theo phong cách tối giản, hiện đại lấy cảm hứng từ [`ParamBirje/timeline-portfolio`](https://github.com/ParamBirje/timeline-portfolio).
+> A clean, high-performance developer portfolio and digital showcase inspired by [victoreke.com](https://victoreke.com), featuring real-time GitHub API data synchronization.
 
 ---
 
-## 🌟 Tổng quan Chỉ số & Dữ liệu Thực tế
+## 🌟 Key Features
 
-- **Hồ sơ:** Trung Kiên (Nguyễn Tô Trung Kiên)
-- **GitHub:** [@tkiennt](https://github.com/tkiennt) *(Git Credential phụ: `trungkien20012005`)*
-- **Email:** `nguyentotrungkien@gmail.com`
-- **Chỉ số quét thực tế qua Git Branch-Scan:**
-  - **34 Repositories** tiếp cận (15 public, 6 private cá nhân, cùng các repo nhóm).
-  - **520+ Commits** ghi nhận từ tất cả các branch tính năng (`trungkien`, `Kien`, `KienNTT_branch`, `feature/...`).
-  - **89 Pull Requests (PRs)** tạo và merge thành công.
-  - **0 Issue:** Quy trình làm việc tập trung qua direct task tracking và PR review.
-- **Phân bổ Công nghệ:**
-  - C# / .NET Backend & Unity: **38%**
-  - TypeScript / React / Next.js: **35%**
-  - Dart / Flutter Mobile: **12%**
-  - Java / Spring Boot: **10%**
-  - Khác (Config, Markdown, SQL): **5%**
-
----
-
-## 🧩 Các Phân hệ trên Giao diện
-
-1. **Hero Section:**
-   - Ảnh đại diện trực tiếp từ GitHub `@tkiennt.png` với hiệu ứng online status.
-   - Nhãn định danh FPT SE, Git credentials, các nhánh làm việc tích cực (`trungkien`, `Kien`, `KienNTT_branch`).
-   - Lưới 4 thẻ thống kê tổng quan (520+ Commits, 34 Repos, 89 PRs, 0 Issues).
-   - Nút sao chép Email 1-click và liên kết GitHub.
-
-2. **GitHub Contribution & Activity Analytics:**
-   - Biểu đồ nhiệt đóng góp trực tiếp từ GitHub (`https://ghchart.rshah.org/2563eb/tkiennt`).
-   - Thanh tiến trình phân bổ tỷ trọng ngôn ngữ trực quan và danh sách đặc tính kỹ thuật.
-
-3. **Signature Timeline (ParamBirje Inspired):**
-   - Trình bày dòng thời gian dự án trực quan theo thứ tự thời gian.
-   - Bộ lọc chuyên mục: *All*, *FPT Capstone & Core*, *Mobile (Flutter)*, *Client & Game*, *Tools & Practice*.
-   - Chi tiết từng dự án (PanelForge, Blood Donation SWP391, VSTEP Writing Lab, SkinSync, Valorant 2D, AutoWash Pro...) kèm số commit của Trung Kiên trên từng nhánh và link repo tương ứng.
-
-4. **All 34 Repositories Explorer:**
-   - Bộ lọc tìm kiếm nhanh theo tên repo, ngôn ngữ lập trình hoặc phân hệ đóng góp.
-   - Bảng thống kê chi tiết đầy đủ 34 repositories với vai trò, phân nhánh và số commit.
-
-5. **Upstream Synchronization Tracker:**
-   - Bảng theo dõi trạng thái đồng bộ của 10 forked repositories với dự án gốc (*Merged & Synced*, *Identical*, *Diverged*).
+- **Victor Eke Inspired Design**: Minimalist aesthetics with dark/light themes, subtle borders, and mint/emerald accents (`#33E092`).
+- **Real-Time GitHub Integration**: Live stats fetched dynamically from the GitHub REST API (Repositories, Stargazers, Forks, and Followers) with zero hardcoded statistics.
+- **Dynamic Language Breakdown**: Calculates programming language share percentages dynamically across public repositories.
+- **Contribution Activity**: Integrated GitHub contribution heatmap and real-time public commit activity stream.
+- **Projects & Experience**: Curated engineering showcases with tech stack tags and direct repository links.
+- **Performance & Accessibility**: Built with Vite and modern React 19, achieving sub-second load times and fluid responsive layouts.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Framework:** React 19 + TypeScript + Vite
-- **Styling:** Tailwind CSS v4
-- **Typography:** Plus Jakarta Sans & JetBrains Mono
-- **Icons:** Lucide Icons & Custom SVG Icons
-- **Deployment:** GitHub Pages (Automated via GitHub Actions or `npm run deploy`)
+- **Framework**: [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Deployment**: [GitHub Pages](https://pages.github.com/) (Automated via GitHub Actions)
 
 ---
 
-## 🚀 Hướng dẫn Cài đặt & Chạy Local
+## ⚙️ Configuration
 
-```bash
-# 1. Di chuyển vào thư mục dự án
-cd portfolio
+The portfolio connects dynamically to GitHub without hardcoding. You can configure the target GitHub profile in:
 
-# 2. Cài đặt các gói phụ thuộc
-npm install
+- **`src/config/githubConfig.ts`** or via an environment variable in `.env.local`:
 
-# 3. Chạy môi trường phát triển (Local dev server)
-npm run dev
+```env
+VITE_GITHUB_USERNAME=your-github-username
 ```
 
-Truy cập: `http://localhost:5173/`
+---
+
+## 🚀 Getting Started
+
+Follow these steps to run the portfolio locally:
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/tkiennt/about-me-website.git
+cd about-me-website
+```
+
+### 2. Install dependencies
+```bash
+npm install
+```
+
+### 3. Start development server
+```bash
+npm run dev
+```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### 4. Build for production
+```bash
+npm run build
+```
 
 ---
 
-## 📦 Deploy lên GitHub Pages
+## 📦 Deployment
 
+### Automated Deployment (GitHub Actions)
+Pushing to the `main` branch automatically triggers the build and deployment workflow in [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) to deploy to the `gh-pages` branch.
+
+### Manual Deployment
 ```bash
 npm run deploy
 ```
-Hoặc push lên GitHub nhánh `main`/`master`, GitHub Actions sẽ tự động build và deploy qua [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml).
+
+---
+
+## 📄 License & Attribution
+
+- This project is open-source and licensed under the [MIT License](LICENSE).
+- Design and theme inspired by [Victor Eke](https://victoreke.com) ([Evavic44/victoreke.com](https://github.com/Evavic44/victoreke.com)).
