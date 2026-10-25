@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { 
-  GitBranch, 
-  ExternalLink, 
-  CheckCircle2, 
+  ArrowRight,
   FolderGit2, 
-  Sparkles, 
   Smartphone, 
   Gamepad2, 
   Layers, 
@@ -12,6 +9,7 @@ import {
   Award
 } from "lucide-react";
 import { timelineProjects } from "../data/githubData";
+import { ProjectDetailModal } from "./ProjectDetailModal";
 import type { TimelineProject } from "../types/github";
 
 const categoryIcons: Record<string, any> = {
@@ -23,6 +21,7 @@ const categoryIcons: Record<string, any> = {
 
 export const Timeline: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedProject, setSelectedProject] = useState<TimelineProject | null>(null);
 
   const categories = ["All", "FPT Capstone & Core", "Mobile (Flutter)", "Client & Game", "Tools & Practice"];
 
@@ -37,14 +36,14 @@ export const Timeline: React.FC = () => {
           <div>
             <h1>Project & Engineering Timeline</h1>
             <p className="text-base opacity-80 max-w-2xl">
-              Chronological journey of real software engineering projects, contributions, and key takeaways across FPT University coursework, cross-platform mobile apps, AI scoring systems, and game architectures.
+              Dòng thời gian các dự án kỹ thuật phần mềm và kỹ năng công nghệ thực tế. Nhấp vào từng dự án để xem tài liệu kiến trúc, đóng góp chi tiết và mã nguồn GitHub.
             </p>
           </div>
 
           {/* Total Projects Counter */}
           <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-[#5000ca] dark:text-purple-300 font-bold self-start md:self-auto">
             <Award size={18} />
-            <span>{filteredProjects.length} Milestones Tracked</span>
+            <span>{filteredProjects.length} Dự án theo mốc thời gian</span>
           </div>
         </div>
 
@@ -69,77 +68,36 @@ export const Timeline: React.FC = () => {
         <div className="vertical-timeline vertical-timeline--animate vertical-timeline--two-columns">
           {filteredProjects.map((project: TimelineProject) => {
             const IconComponent = categoryIcons[project.category] || FolderGit2;
-            const primaryRepo = project.repos[0];
 
             return (
               <div
                 key={project.id}
-                className="vertical-timeline-element vertical-timeline-element--work"
+                className="vertical-timeline-element vertical-timeline-element--work group"
               >
                 {/* Center Icon */}
-                <span className="vertical-timeline-element-icon">
+                <span className="vertical-timeline-element-icon cursor-pointer" onClick={() => setSelectedProject(project)}>
                   <IconComponent size={22} />
                 </span>
 
-                {/* Card Content with Speech Arrow */}
-                <div className="vertical-timeline-element-content">
+                {/* Card Content with Speech Arrow: Clickable to open Project Detail */}
+                <div 
+                  onClick={() => setSelectedProject(project)}
+                  className="vertical-timeline-element-content cursor-pointer group-hover:border-[#5000ca] group-hover:shadow-xl group-hover:shadow-purple-900/10 transition-all duration-200"
+                >
                   <div className="vertical-timeline-element-content-arrow"></div>
-
-                  {/* Header Row: Category Badge & Status */}
-                  <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
-                    <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-purple-500/15 text-[#5000ca] dark:text-purple-300">
-                      {project.category}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                      <CheckCircle2 size={13} /> {project.status}
-                    </span>
-                  </div>
-
-                  {/* Title & Subtitle */}
-                  <h3 className="vertical-timeline-element-title">
-                    {project.title}
-                  </h3>
-
-                  {/* Affiliation & Role */}
-                  {primaryRepo && (
-                    <h4 className="vertical-timeline-element-subtitle flex items-center gap-2 flex-wrap">
-                      <span>{primaryRepo.role}</span>
-                      <span>·</span>
-                      <span className="inline-flex items-center gap-1 font-mono text-xs px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800/80 text-purple-600 dark:text-purple-300">
-                        <GitBranch size={12} /> {primaryRepo.branch}
-                      </span>
-                      <span>·</span>
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                        {primaryRepo.commits} commits
-                      </span>
-                    </h4>
-                  )}
 
                   {/* Date Tag */}
                   <span className="vertical-timeline-element-date">
                     {project.period}
                   </span>
 
-                  {/* Description */}
-                  <p className="text-sm leading-relaxed opacity-90 my-3 font-normal">
-                    {project.description}
-                  </p>
+                  {/* 1. Tên dự án (Project Name) */}
+                  <h3 className="vertical-timeline-element-title group-hover:text-[#5000ca] dark:group-hover:text-purple-400 transition-colors">
+                    {project.title}
+                  </h3>
 
-                  {/* Key Contributions */}
-                  <div className="my-3 space-y-1.5 border-t border-slate-200/60 dark:border-slate-800 pt-3">
-                    <div className="text-xs font-bold uppercase tracking-wider text-[#5000ca] dark:text-purple-400 mb-1 flex items-center gap-1">
-                      <Sparkles size={12} /> Key Engineering Deliverables
-                    </div>
-                    {project.contributions.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs leading-normal opacity-85">
-                        <span className="text-[#5000ca] dark:text-purple-400 font-bold">•</span>
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Tech Stack Chips */}
-                  <div className="flex flex-wrap gap-1.5 pt-2 mb-3">
+                  {/* 2. Skills (Tech Stack) */}
+                  <div className="flex flex-wrap gap-1.5 pt-3 mb-2">
                     {project.techStack.map((tech, techIdx) => (
                       <span key={techIdx} className="chip">
                         {tech}
@@ -147,21 +105,10 @@ export const Timeline: React.FC = () => {
                     ))}
                   </div>
 
-                  {/* Repository Links */}
-                  <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200/60 dark:border-slate-800">
-                    {project.repos.map((repo, repoIdx) => (
-                      <a
-                        key={repoIdx}
-                        href={repo.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-mono font-medium px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-purple-100 dark:bg-slate-800/90 dark:hover:bg-purple-900/30 text-slate-700 dark:text-slate-200 hover:text-[#5000ca] transition-all"
-                      >
-                        <FolderGit2 size={13} className="text-[#5000ca]" />
-                        <span>{repo.name.split("/")[1] || repo.name}</span>
-                        <ExternalLink size={11} className="opacity-60" />
-                      </a>
-                    ))}
+                  {/* Action prompt */}
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-[#5000ca] dark:text-purple-400 pt-2 border-t border-slate-200/60 dark:border-slate-800 group-hover:translate-x-1 transition-transform">
+                    <span>Xem thông tin dự án chi tiết</span>
+                    <ArrowRight size={13} />
                   </div>
                 </div>
               </div>
@@ -169,6 +116,12 @@ export const Timeline: React.FC = () => {
           })}
         </div>
       </div>
+
+      {/* Project Detail Modal / Page */}
+      <ProjectDetailModal 
+        project={selectedProject} 
+        onClose={() => setSelectedProject(null)} 
+      />
     </div>
   );
 };
