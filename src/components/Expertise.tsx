@@ -1,114 +1,101 @@
 import React from "react";
-import { Server, Smartphone, Cpu } from "lucide-react";
+import { Server, Smartphone, Cpu, Globe, Code2 } from "lucide-react";
 
-const fullStackSkills = [
-  "C#",
-  ".NET 9",
-  "ASP.NET Core",
-  "React",
-  "TypeScript",
-  "Next.js",
-  "Java",
-  "Spring Boot",
-  "SQL Server",
-  "MySQL",
-  "RESTful API",
-  "PayOS",
-  "Supabase",
-  "Tailwind CSS"
-];
+interface SkillCategory {
+  title: string;
+  icon: any;
+  skills: string[];
+  description: string;
+}
 
-const mobileGameSkills = [
-  "Dart",
-  "Flutter",
-  "Riverpod",
-  "Provider",
-  "Unity 2D",
-  "C# Scripting",
-  "URP",
-  "AWS SDK (.NET)",
-  "Syncfusion PDF",
-  "fl_chart",
-  "Mobile UI/UX"
-];
-
-const aiDevOpsSkills = [
-  "Gemini AI LLM",
-  "Fine-Tuned Models",
-  "JsonRepairHelper",
-  "Postman Automation",
-  "Newman",
-  "Git Flow",
-  "Branching Strategy",
-  "Docker",
-  "Firebase Auth",
-  "CI/CD Actions"
+const skillCategories: SkillCategory[] = [
+  {
+    title: "Backend & Systems",
+    icon: Server,
+    description: "Robust architectures, RESTful API microservices, and database persistence layers.",
+    skills: ["C#", ".NET 9", "ASP.NET Core", "Java Spring Boot", "SQL Server", "MySQL", "Clean Architecture", "JWT Auth"],
+  },
+  {
+    title: "Frontend & Web",
+    icon: Globe,
+    description: "Responsive, accessible, and high-performance client user interfaces.",
+    skills: ["TypeScript", "React", "Next.js", "Tailwind CSS", "JavaScript (ES6+)", "Vite", "HTML5 / CSS3"],
+  },
+  {
+    title: "Mobile & Interactive",
+    icon: Smartphone,
+    description: "Cross-platform mobile applications and 2D interactive game engines.",
+    skills: ["Flutter", "Dart", "Riverpod", "Unity 2D", "Universal Render Pipeline", "Syncfusion PDF", "Offline Sync"],
+  },
+  {
+    title: "AI & DevOps Tooling",
+    icon: Cpu,
+    description: "Automated regression pipelines, containerization, and LLM integrations.",
+    skills: ["Google Gemini API", "Git Flow", "Docker", "Postman / Newman", "GitHub Actions CI/CD", "PayOS Gateway"],
+  },
 ];
 
 export const Expertise: React.FC = () => {
   return (
-    <div className="container" id="expertise">
-      <div className="skills-container">
-        <h1>Expertise & Capabilities</h1>
-        <div className="skills-grid">
-          {/* Card 1: Full-Stack & Backend */}
-          <div className="skill-card">
-            <div className="w-14 h-14 rounded-2xl bg-[#5000ca]/15 text-[#5000ca] flex items-center justify-center mb-2">
-              <Server size={32} />
-            </div>
-            <h3>Full Stack Web & Architecture</h3>
-            <p>
-              Specialized in architecting high-reliability backends and sleek client dashboards. Proficient in N-Tier Clean Architecture, Entity Framework Core, JWT Bearer authentication, and modern React/TypeScript frontends.
-            </p>
-            <div className="flex-chips">
-              <span className="chip-title">Tech stack:</span>
-              {fullStackSkills.map((skill, index) => (
-                <span key={index} className="chip">
-                  {skill}
-                </span>
-              ))}
-            </div>
+    <section id="skills" className="py-20 md:py-28 border-t border-zinc-800/80 light-mode:border-zinc-200">
+      <div className="max-w-6xl mx-auto px-6">
+        
+        {/* Section Header */}
+        <div className="flex flex-col items-start mb-14 text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#33E092]/10 border border-[#33E092]/30 text-xs font-mono font-semibold text-[#33E092] mb-3">
+            <Code2 className="w-3.5 h-3.5" />
+            <span>Technical Capabilities</span>
           </div>
-
-          {/* Card 2: Mobile & Game */}
-          <div className="skill-card">
-            <div className="w-14 h-14 rounded-2xl bg-[#5000ca]/15 text-[#5000ca] flex items-center justify-center mb-2">
-              <Smartphone size={32} />
-            </div>
-            <h3>Mobile Apps & Game Systems</h3>
-            <p>
-              Crafting cross-platform mobile experiences with Flutter/Dart and desktop/game prototypes with Unity 2D (URP). Deep experience in offline data synchronization, academic paper rendering, and AWS cloud auth.
-            </p>
-            <div className="flex-chips">
-              <span className="chip-title">Tech stack:</span>
-              {mobileGameSkills.map((skill, index) => (
-                <span key={index} className="chip">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Card 3: AI & QA Automation */}
-          <div className="skill-card">
-            <div className="w-14 h-14 rounded-2xl bg-[#5000ca]/15 text-[#5000ca] flex items-center justify-center mb-2">
-              <Cpu size={32} />
-            </div>
-            <h3>GenAI Integration & Quality Assurance</h3>
-            <p>
-              Leveraging Google Gemini LLMs for automated essay grading, designing JsonRepairHelper streaming parsers, and building automated Postman regression testing suites across multi-branch Git Flow environments.
-            </p>
-            <div className="flex-chips">
-              <span className="chip-title">Tech stack:</span>
-              {aiDevOpsSkills.map((skill, index) => (
-                <span key={index} className="chip">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 light-mode:text-zinc-900 tracking-tight">
+            Skills & Core Stack
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-zinc-400 light-mode:text-zinc-600 max-w-2xl">
+            Technologies and frameworks I utilize to architect, build, and ship end-to-end software solutions.
+          </p>
         </div>
+
+        {/* 4 Clean Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+          {skillCategories.map((category) => {
+            const Icon = category.icon;
+
+            return (
+              <div
+                key={category.title}
+                className="p-6 rounded-2xl bg-zinc-900/60 light-mode:bg-white border border-zinc-800/80 light-mode:border-zinc-200 backdrop-blur-md shadow-xs card-hover-lift"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-zinc-800/80 light-mode:bg-zinc-100 border border-zinc-700/60 light-mode:border-zinc-200 flex items-center justify-center text-[#33E092]">
+                    <Icon size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-base text-zinc-100 light-mode:text-zinc-900">
+                      {category.title}
+                    </h3>
+                  </div>
+                </div>
+
+                <p className="text-xs sm:text-sm text-zinc-400 light-mode:text-zinc-600 mb-5 leading-relaxed">
+                  {category.description}
+                </p>
+
+                {/* Skill Badges */}
+                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-zinc-800/50 light-mode:border-zinc-100">
+                  {category.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-2.5 py-1 rounded-md bg-zinc-800/60 light-mode:bg-zinc-100 text-xs font-mono text-zinc-300 light-mode:text-zinc-700 hover:text-[#33E092] hover:border-[#33E092]/30 border border-transparent transition-colors"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
       </div>
-    </div>
+    </section>
   );
 };

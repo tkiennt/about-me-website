@@ -1,217 +1,185 @@
-import React, { useState, useMemo } from 'react';
-import { FolderGit2, Search, ExternalLink, Lock, Globe, GitBranch, GitCommit, Filter } from 'lucide-react';
-import { allRepositoriesData } from '../data/githubData';
+import React, { useState, useMemo } from "react";
+import { FolderGit2, Search, ExternalLink, Star, GitFork } from "lucide-react";
+import type { GitHubRepo } from "../types/githubRealtime";
 
-export const RepoExplorer: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedLanguage, setSelectedLanguage] = useState<string>('All');
-  const [selectedRole, setSelectedRole] = useState<string>('All');
+interface RepoExplorerProps {
+  repos: GitHubRepo[];
+  username?: string;
+  loading: boolean;
+}
 
-  const languages = ['All', 'TypeScript', 'C#', 'Dart / Flutter', 'JavaScript', 'Java'];
-  const roles = ['All', 'Owner', 'Collaborator', 'Owner (Fork)'];
+export const RepoExplorer: React.FC<RepoExplorerProps> = ({ repos, loading }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState("All");
 
+  // Dynamically extract unique languages from live repos
+  const availableLanguages = useMemo(() => {
+    const set = new Set<string>();
+    repos.forEach((r) => {
+      if (r.language) set.add(r.language);
+    });
+    return ["All", ...Array.from(set).sort()];
+  }, [repos]);
+
+  // Filter repositories dynamically
   const filteredRepos = useMemo(() => {
-    return allRepositoriesData.filter((repo) => {
+    return repos.filter((repo) => {
       const matchesSearch =
-        searchQuery === '' ||
+        searchQuery === "" ||
         repo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        repo.subsystem.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        repo.branch.toLowerCase().includes(searchQuery.toLowerCase());
+        (repo.description && repo.description.toLowerCase().includes(searchQuery.toLowerCase()));
 
       const matchesLanguage =
-        selectedLanguage === 'All' ||
-        (selectedLanguage === 'C#' && repo.language.includes('C#')) ||
-        (selectedLanguage === 'Dart / Flutter' && repo.language.includes('Dart')) ||
-        repo.language.toLowerCase().includes(selectedLanguage.toLowerCase());
+        selectedLanguage === "All" || repo.language === selectedLanguage;
 
-      const matchesRole =
-        selectedRole === 'All' ||
-        repo.role.toLowerCase() === selectedRole.toLowerCase();
-
-      return matchesSearch && matchesLanguage && matchesRole;
+      return matchesSearch && matchesLanguage;
     });
-  }, [searchQuery, selectedLanguage, selectedRole]);
+  }, [repos, searchQuery, selectedLanguage]);
 
   return (
-    <section id="repos" className="py-20 sm:py-28 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-950/20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="repos" className="py-20 md:py-28 border-t border-zinc-800/80 light-mode:border-zinc-200">
+      <div className="max-w-6xl mx-auto px-6">
         
         {/* Section Header */}
-        <div className="flex flex-col items-start mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/60 dark:border-indigo-800/60 text-xs font-semibold text-indigo-700 dark:text-indigo-300 mb-3 font-mono">
-            <FolderGit2 className="w-3.5 h-3.5" />
-            <span>Public Repositories Explorer</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 text-left">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#33E092]/10 border border-[#33E092]/30 text-xs font-mono font-semibold text-[#33E092] mb-3">
+              <FolderGit2 className="w-3.5 h-3.5" />
+              <span>Real-Time Repositories</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 light-mode:text-zinc-900 tracking-tight">
+              Live Repositories Explorer
+            </h2>
+            <p className="mt-2 text-sm sm:text-base text-zinc-400 light-mode:text-zinc-600 max-w-2xl">
+              All public GitHub repositories streamed in real time. Search and filter by language with instant updates.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Kho Repositories & Chi tiết Đóng góp
-          </h2>
-          <p className="mt-2 text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-3xl">
-            Bảng thống kê danh mục repositories được hiển thị công khai. Các dự án nội bộ đang phát triển được ẩn hoàn toàn theo yêu cầu bảo mật, trong khi tổng số lượng commit (<strong>520+ commits</strong> trên 34 repositories) vẫn được hệ thống ghi nhận toàn diện.
-          </p>
+
+          <div className="text-xs font-mono text-zinc-400 self-start md:self-auto">
+            Showing <span className="text-[#33E092] font-bold">{filteredRepos.length}</span> of {repos.length} public repos
+          </div>
         </div>
 
-        {/* Filter & Search Bar */}
-        <div className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs mb-8 space-y-4">
-          
+        {/* Filter and Search Bar */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-zinc-900/60 light-mode:bg-white border border-zinc-800/80 light-mode:border-zinc-200 backdrop-blur-md shadow-xs mb-8 space-y-4 text-left">
           <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
             {/* Search Input */}
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
               <input
                 type="text"
-                placeholder="Tìm tên repo, phân hệ đóng góp, nhánh..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans"
+                placeholder="Search repository by name or topic..."
+                className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm rounded-xl bg-zinc-950/80 light-mode:bg-zinc-50 border border-zinc-800 light-mode:border-zinc-200 text-zinc-100 light-mode:text-zinc-900 placeholder:text-zinc-500 focus:outline-hidden focus:border-[#33E092]"
               />
-              {searchQuery && (
+            </div>
+
+            {/* Language Pills */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+              {availableLanguages.map((lang) => (
                 <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                  key={lang}
+                  onClick={() => setSelectedLanguage(lang)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors whitespace-nowrap cursor-pointer ${
+                    selectedLanguage === lang
+                      ? "bg-[#33E092] text-zinc-950 font-bold"
+                      : "bg-zinc-800/60 light-mode:bg-zinc-100 text-zinc-400 light-mode:text-zinc-600 hover:text-zinc-100"
+                  }`}
                 >
-                  Xóa
+                  {lang}
                 </button>
-              )}
-            </div>
-
-            {/* Total Results Count */}
-            <div className="text-xs font-mono text-slate-500 dark:text-slate-400 self-end md:self-auto">
-              Hiển thị: <strong>{filteredRepos.length}</strong> / {allRepositoriesData.length} repositories công khai
+              ))}
             </div>
           </div>
-
-          {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-            <span className="text-xs font-mono text-slate-400 flex items-center gap-1 shrink-0">
-              <Filter className="w-3 h-3" />
-              Ngôn ngữ:
-            </span>
-            {languages.map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setSelectedLanguage(lang)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${
-                  selectedLanguage === lang
-                    ? 'bg-blue-600 text-white font-bold'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
-                }`}
-              >
-                {lang}
-              </button>
-            ))}
-
-            <span className="text-xs font-mono text-slate-400 ml-3 flex items-center gap-1 shrink-0">
-              Vai trò:
-            </span>
-            {roles.map((r) => (
-              <button
-                key={r}
-                onClick={() => setSelectedRole(r)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${
-                  selectedRole === r
-                    ? 'bg-indigo-600 text-white font-bold'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
-                }`}
-              >
-                {r}
-              </button>
-            ))}
-          </div>
-
         </div>
 
-        {/* Repositories Table */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 font-mono text-slate-500 dark:text-slate-400">
-                  <th className="py-3.5 px-4 font-semibold w-12 text-center">STT</th>
-                  <th className="py-3.5 px-4 font-semibold">Tên Repository</th>
-                  <th className="py-3.5 px-4 font-semibold">Vai trò</th>
-                  <th className="py-3.5 px-4 font-semibold">Ngôn ngữ</th>
-                  <th className="py-3.5 px-4 font-semibold">Nhánh làm việc</th>
-                  <th className="py-3.5 px-4 font-semibold text-center">Commits</th>
-                  <th className="py-3.5 px-4 font-semibold min-w-[280px]">Phân hệ tham gia đóng góp</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                {filteredRepos.map((repo, idx) => (
-                  <tr
-                    key={repo.id}
-                    className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors"
-                  >
-                    <td className="py-3.5 px-4 text-center font-mono text-slate-400">
-                      {idx + 1}
-                    </td>
+        {/* Repos Grid */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div
+                key={n}
+                className="h-44 rounded-2xl bg-zinc-900/40 border border-zinc-800/60 animate-pulse p-5 flex flex-col justify-between"
+              >
+                <div className="space-y-2">
+                  <div className="h-4 w-1/2 bg-zinc-800 rounded-sm"></div>
+                  <div className="h-3 w-3/4 bg-zinc-800/60 rounded-sm"></div>
+                </div>
+                <div className="h-3 w-1/3 bg-zinc-800/40 rounded-sm"></div>
+              </div>
+            ))}
+          </div>
+        ) : filteredRepos.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 text-left">
+            {filteredRepos.map((repo) => {
+              const updatedFormatted = new Date(repo.pushed_at || repo.updated_at).toLocaleDateString(undefined, {
+                month: "short",
+                year: "numeric",
+              });
 
-                    <td className="py-3.5 px-4 font-mono font-semibold">
-                      {repo.url ? (
-                        <a
-                          href={repo.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-blue-600 dark:text-blue-400 hover:underline"
-                        >
-                          {repo.isPrivate ? (
-                            <span title="Private Repo">
-                              <Lock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                            </span>
-                          ) : (
-                            <span title="Public Repo">
-                              <Globe className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                            </span>
-                          )}
-                          <span className="truncate max-w-[220px] sm:max-w-xs">{repo.name}</span>
-                          <ExternalLink className="w-3 h-3 opacity-60 shrink-0" />
-                        </a>
+              return (
+                <div
+                  key={repo.id}
+                  className="group relative flex flex-col justify-between p-5 rounded-2xl bg-zinc-900/60 light-mode:bg-white border border-zinc-800/80 light-mode:border-zinc-200 backdrop-blur-md shadow-xs card-hover-lift"
+                >
+                  <div>
+                    {/* Header */}
+                    <div className="flex items-center justify-between gap-2 mb-2.5">
+                      <h3 className="font-bold text-sm text-zinc-100 light-mode:text-zinc-900 group-hover:text-[#33E092] transition-colors truncate">
+                        {repo.name}
+                      </h3>
+                      <a
+                        href={repo.html_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        title="Open on GitHub"
+                        className="text-zinc-400 hover:text-[#33E092] p-1"
+                      >
+                        <ExternalLink size={13} />
+                      </a>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-xs text-zinc-400 light-mode:text-zinc-600 line-clamp-2 leading-relaxed mb-4">
+                      {repo.description || "Public repository and code workspace."}
+                    </p>
+                  </div>
+
+                  {/* Footer Meta */}
+                  <div className="flex items-center justify-between pt-3 border-t border-zinc-800/50 light-mode:border-zinc-100 text-[11px] font-mono text-zinc-400">
+                    <div className="flex items-center gap-2">
+                      {repo.language ? (
+                        <span className="inline-flex items-center gap-1 text-zinc-300 light-mode:text-zinc-700">
+                          <span className="w-2 h-2 rounded-full bg-[#33E092]"></span>
+                          <span>{repo.language}</span>
+                        </span>
                       ) : (
-                        <div className="inline-flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
-                          <Lock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                          <span>{repo.name}</span>
-                        </div>
+                        <span className="text-zinc-500">Repository</span>
                       )}
-                    </td>
+                    </div>
 
-                    <td className="py-3.5 px-4 font-mono">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-semibold ${
-                        repo.role === 'Owner'
-                          ? 'bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300'
-                          : repo.role === 'Owner (Fork)'
-                          ? 'bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300'
-                          : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
-                      }`}>
-                        {repo.role}
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1 text-zinc-400" title="Stars">
+                        <Star size={11} className={repo.stargazers_count > 0 ? "text-amber-400 fill-amber-400" : ""} />
+                        <span>{repo.stargazers_count}</span>
                       </span>
-                    </td>
-
-                    <td className="py-3.5 px-4 font-mono text-slate-700 dark:text-slate-300">
-                      {repo.language}
-                    </td>
-
-                    <td className="py-3.5 px-4 font-mono">
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px]">
-                        <GitBranch className="w-3 h-3 text-blue-500" />
-                        {repo.branch}
+                      <span className="flex items-center gap-1 text-zinc-400" title="Forks">
+                        <GitFork size={11} />
+                        <span>{repo.forks_count}</span>
                       </span>
-                    </td>
-
-                    <td className="py-3.5 px-4 text-center font-mono font-bold text-slate-900 dark:text-white">
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
-                        <GitCommit className="w-3 h-3" />
-                        {repo.commits}
-                      </span>
-                    </td>
-
-                    <td className="py-3.5 px-4 text-slate-600 dark:text-slate-300 leading-snug">
-                      {repo.subsystem}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      <span className="text-zinc-500">{updatedFormatted}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
+        ) : (
+          <div className="p-12 text-center rounded-2xl bg-zinc-900/40 border border-zinc-800 text-xs font-mono text-zinc-400">
+            No repositories match your current filter criteria.
+          </div>
+        )}
 
       </div>
     </section>
