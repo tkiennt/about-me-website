@@ -23,7 +23,7 @@ const FALLBACK_PROFILE: GitHubUserProfile = {
   name: "Trung Kiên",
   company: null,
   blog: "https://github.com/tkiennt",
-  location: "Hà Nội, Việt Nam",
+  location: "TPHCM, Việt Nam",
   email: "nguyentotrungkien@gmail.com",
   hireable: true,
   bio: "Software Engineering Student & Fullstack Developer. Focused on C#/.NET, React, and Flutter.",

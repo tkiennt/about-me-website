@@ -55,11 +55,11 @@ export const Main: React.FC<MainProps> = ({
             <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-400 light-mode:text-zinc-500 mb-6">
               <span className="inline-flex items-center gap-1.5">
                 <MapPin size={14} className="text-[#33E092]" />
-                Hà Nội, Việt Nam
+                TPHCM, Việt Nam
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <GraduationCap size={14} className="text-[#33E092]" />
-                FPT University (Software Engineering)
+                FPT University HCMC (Software Engineering)
               </span>
             </div>
 

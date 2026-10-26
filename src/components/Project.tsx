@@ -5,6 +5,7 @@ import { GithubIcon } from "./Icons";
 interface ProjectItem {
   id: string;
   title: string;
+  role: string;
   subtitle: string;
   description: string;
   techStack: string[];
@@ -18,6 +19,7 @@ const featuredProjects: ProjectItem[] = [
   {
     id: "blood-donation",
     title: "Blood Donation System",
+    role: "Lead Full-stack Developer",
     subtitle: "Healthcare & Scheduling",
     description: "Automated blood request management, emergency donor matching algorithms, and real-time storage inventory dashboard.",
     techStack: ["TypeScript", "React", "Java Spring Boot", "MySQL", "Tailwind CSS"],
@@ -28,6 +30,7 @@ const featuredProjects: ProjectItem[] = [
   {
     id: "vstep-lab",
     title: "VSTEP Writing Lab",
+    role: "AI & Fullstack Engineer",
     subtitle: "AI EdTech Platform",
     description: "Automated essay scoring web platform utilizing Google Gemini LLM API with structured CEFR rubric evaluation.",
     techStack: ["React", "TypeScript", "Google Gemini API", "Node.js", "Tailwind CSS"],
@@ -38,6 +41,7 @@ const featuredProjects: ProjectItem[] = [
   {
     id: "skinsync",
     title: "SkinSync Cosmetics",
+    role: "Backend Architect & Full-stack",
     subtitle: "Fullstack E-Commerce & Booking",
     description: "Comprehensive beauty consultation and booking system featuring PayOS QR payments and Clean Architecture backend.",
     techStack: ["C#", ".NET 9", "ASP.NET Core", "React", "SQL Server", "PayOS"],
@@ -48,6 +52,7 @@ const featuredProjects: ProjectItem[] = [
   {
     id: "scientific-reader",
     title: "Scientific Paper Reader",
+    role: "Mobile Cross-Platform Developer",
     subtitle: "Mobile Cross-Platform",
     description: "Mobile PDF reader application tailored for research publications with offline document caching and annotations.",
     techStack: ["Flutter", "Dart", "Syncfusion PDF", "AWS SDK", "Riverpod"],
@@ -58,6 +63,7 @@ const featuredProjects: ProjectItem[] = [
   {
     id: "valorant-td",
     title: "Valorant Tower Defense",
+    role: "Game Gameplay & Physics Programmer",
     subtitle: "2D Game Development",
     description: "Tactical grid-based tower defense game with custom ability physics, Universal Render Pipeline (URP), and pathfinding.",
     techStack: ["Unity 2D", "C#", "URP", "OOP Design Patterns"],
@@ -68,6 +74,7 @@ const featuredProjects: ProjectItem[] = [
   {
     id: "autobot",
     title: "AUTOBOT API Runner",
+    role: "DevOps & QA Automation Engineer",
     subtitle: "DevOps & QA Automation",
     description: "Automated regression testing suite executing continuous multi-branch validation for RESTful API services.",
     techStack: ["JavaScript", "Postman", "Newman", "CI/CD Actions"],
@@ -152,13 +159,20 @@ export const Project: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Subtitle & Title */}
-                  <div className="text-[11px] font-mono uppercase tracking-wider text-zinc-500 mb-1">
-                    {project.subtitle}
-                  </div>
-                  <h3 className="text-lg font-bold text-zinc-100 light-mode:text-zinc-900 group-hover:text-[#33E092] transition-colors mb-2.5">
+                  {/* 1. TÊN DỰ ÁN NỔI BẬT HƠN HẾT (Prominent Title) */}
+                  <h3 className="text-xl sm:text-2xl font-black text-zinc-100 light-mode:text-zinc-900 group-hover:text-[#33E092] transition-colors mb-2 tracking-tight leading-snug">
                     {project.title}
                   </h3>
+
+                  {/* 2. TÊN VAI TRÒ LÀ SUBHEADING (Clear Subheading) */}
+                  <div className="text-xs sm:text-sm font-semibold text-[#33E092] mb-3.5 flex flex-wrap items-center gap-1.5 font-mono">
+                    <span className="px-2.5 py-0.5 rounded-md bg-[#33E092]/10 border border-[#33E092]/30 text-[#33E092]">
+                      Vai trò: {project.role}
+                    </span>
+                    <span className="text-zinc-400 light-mode:text-zinc-500 font-normal">
+                      • {project.subtitle}
+                    </span>
+                  </div>
 
                   {/* Concise Description (No redundant words) */}
                   <p className="text-xs sm:text-sm text-zinc-400 light-mode:text-zinc-600 leading-relaxed mb-6">

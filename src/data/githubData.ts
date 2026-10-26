@@ -6,8 +6,8 @@ export const userProfile: UserProfile = {
   subUsername: "trungkien20012005",
   email: "nguyentotrungkien@gmail.com",
   role: "Software Engineering Student & Fullstack / Mobile Developer",
-  university: "Đại học FPT (FPT University)",
-  location: "Hà Nội, Việt Nam",
+  university: "Đại học FPT TPHCM (FPT University HCMC)",
+  location: "TPHCM, Việt Nam",
   avatarUrl: "https://github.com/tkiennt.png",
   bio: "Sinh viên ngành Kỹ thuật Phần mềm (Software Engineering) tại Đại học FPT. Đam mê phát triển hệ thống Fullstack với C# / .NET & TypeScript/React, ứng dụng di động Flutter/Dart và dịch vụ đám mây AWS. Đã tích lũy hơn 520+ commits và 89 merged pull requests trên 34 repositories làm việc nhóm và cá nhân.",
   stats: {

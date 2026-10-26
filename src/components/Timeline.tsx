@@ -119,11 +119,18 @@ export const Timeline: React.FC = () => {
               <div className="p-6 rounded-2xl bg-zinc-900/60 light-mode:bg-white border border-zinc-800/80 light-mode:border-zinc-200 backdrop-blur-md shadow-xs card-hover-lift">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                   <div>
-                    <h3 className="text-lg font-bold text-zinc-100 light-mode:text-zinc-900 group-hover:text-[#33E092] transition-colors">
-                      {item.role}
-                    </h3>
-                    <div className="text-sm font-medium text-zinc-400 light-mode:text-zinc-600">
+                    {/* 1. TÊN DỰ ÁN NỔI BẬT HƠN HẾT (Prominent Title) */}
+                    <h3 className="text-xl sm:text-2xl font-black text-zinc-100 light-mode:text-zinc-900 group-hover:text-[#33E092] transition-colors tracking-tight leading-snug">
                       {item.organization}
+                    </h3>
+                    {/* 2. TÊN VAI TRÒ LÀ SUBHEADING (Clear Subheading) */}
+                    <div className="text-xs sm:text-sm font-semibold text-[#33E092] mt-1.5 flex flex-wrap items-center gap-1.5 font-mono">
+                      <span className="px-2.5 py-0.5 rounded-md bg-[#33E092]/10 border border-[#33E092]/30 text-[#33E092]">
+                        Vai trò: {item.role}
+                      </span>
+                      <span className="text-zinc-400 light-mode:text-zinc-500 font-normal">
+                        • {item.category}
+                      </span>
                     </div>
                   </div>
 

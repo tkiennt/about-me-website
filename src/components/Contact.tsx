@@ -84,10 +84,10 @@ export const Contact: React.FC<ContactProps> = ({ username }) => {
                 <span>Location</span>
               </div>
               <div className="text-sm font-semibold text-zinc-200 light-mode:text-zinc-800">
-                Hà Nội, Việt Nam
+                TPHCM, Việt Nam
               </div>
               <div className="text-xs text-zinc-400 mt-0.5">
-                FPT University Hanoi Campus
+                FPT University HCMC Campus (Khu CNC, TP. Thủ Đức)
               </div>
             </div>
 

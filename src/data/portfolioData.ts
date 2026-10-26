@@ -4,12 +4,12 @@ export const profileData: ProfileInfo = {
   name: "Nguyễn Nhật Minh",
   title: "Software Engineering Student @ FPT University",
   university: "Đại học FPT",
-  campus: "FPT University Hanoi Campus (Khu CNC Hòa Lạc)",
+  campus: "FPT University HCMC Campus (Khu Công nghệ cao, TP. Thủ Đức, TPHCM)",
   major: "Kỹ thuật Phần mềm (Software Engineering - SE)",
   cohort: "K17 / K18",
   expectedGraduation: "2026",
   status: "Sẵn sàng cho cơ hội Backend Engineer / Full-Stack Engineer",
-  bio: "Sinh viên năm cuối ngành Kỹ thuật Phần mềm tại Đại học FPT với niềm đam mê sâu sắc về Kiến trúc hệ thống phân tán (Distributed Systems) và Clean Architecture. Định hướng phát triển thành Software Engineer chú trọng vào hiệu năng cao, tính mở rộng linh hoạt và văn hóa kiểm thử tự động.",
+  bio: "Sinh viên năm cuối ngành Kỹ thuật Phần mềm tại Đại học FPT TPHCM với niềm đam mê sâu sắc về Kiến trúc hệ thống phân tán (Distributed Systems) và Clean Architecture. Định hướng phát triển thành Software Engineer chú trọng vào hiệu năng cao, tính mở rộng linh hoạt và văn hóa kiểm thử tự động.",
   careerGoals: [
     "Thiết kế và xây dựng các hệ thống Backend chịu tải cao (High Throughput & Low Latency)",
     "Áp dụng triệt để Clean Architecture, DDD và Microservices Patterns vào bài toán thực tiễn",
@@ -20,7 +20,7 @@ export const profileData: ProfileInfo = {
     email: "nhatminh.se.fpt@gmail.com",
     github: "https://github.com/nhatminh-dev",
     linkedin: "https://linkedin.com/in/nhatminh-se",
-    location: "Hà Nội, Việt Nam",
+    location: "TPHCM, Việt Nam",
     cvUrl: "#cv-preview"
   },
   metrics: [
