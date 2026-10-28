@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ArrowUpRight, GitCommit, FolderGit2, GitPullRequest } from "lucide-react";
 import type { GitHubUserProfile, GitHubAggregatedStats } from "../types/githubRealtime";
+import heroPhoto from "../assets/hero-mypic2.jpg";
 
 interface EditorialHeroProps {
   profile: GitHubUserProfile | null;
@@ -151,7 +152,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
           }}
         >
           <img
-            src="/hero-mypic2.jpg"
+            src={heroPhoto}
             alt="Trung Kiên - Software Engineer walking with basketball"
             className="w-full h-full object-contain object-bottom drop-shadow-[0_15px_30px_rgba(0,0,0,0.12)]"
           />
