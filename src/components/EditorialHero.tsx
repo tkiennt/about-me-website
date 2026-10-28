@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { ArrowUpRight, GitCommit, FolderGit2, GitPullRequest } from "lucide-react";
 import type { GitHubUserProfile, GitHubAggregatedStats } from "../types/githubRealtime";
 import heroPhoto from "../assets/hero-mypic2.jpg";
@@ -14,41 +14,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
   stats,
   username,
 }) => {
-  const [sliderStyle, setSliderStyle] = useState<{ width: number; transform: string }>({
-    width: 60,
-    transform: "translateX(0px)",
-  });
-  const [activeTab, setActiveTab] = useState<string>("About");
-  const [hoveredTab, setHoveredTab] = useState<string | null>(null);
-  const navContainerRef = useRef<HTMLElement>(null);
   const photoWrapRef = useRef<HTMLDivElement>(null);
-
-  const navItems = [
-    { label: "About", href: "#hero" },
-    { label: "Experience", href: "#experience" },
-    { label: "Projects", href: "#projects" },
-    { label: "GitHub", href: "#github" },
-    { label: "Contact", href: "#contact" },
-  ];
-
-  // Sliding pill navigation logic
-  const updateSliderPosition = (target: HTMLElement | null) => {
-    if (!target || !navContainerRef.current) return;
-    const parentRect = navContainerRef.current.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
-    const offset = targetRect.left - parentRect.left;
-    setSliderStyle({
-      width: targetRect.width,
-      transform: `translateX(${offset}px)`,
-    });
-  };
-
-  useEffect(() => {
-    if (navContainerRef.current) {
-      const activeEl = navContainerRef.current.querySelector<HTMLElement>(".nav-btn-active");
-      if (activeEl) updateSliderPosition(activeEl);
-    }
-  }, []);
 
   // Parallax photo drift on scroll
   useEffect(() => {
@@ -65,87 +31,13 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
   const displayName = profile?.name || "Trung Kiên";
 
   return (
-    <header className="hero-editorial-section relative w-full bg-[#dadada] text-[#111111] overflow-hidden" id="hero">
+    <header className="hero-editorial-section relative w-full bg-[#dadada] text-[#111111] overflow-hidden pt-20" id="hero">
       <div className="hero-artboard relative w-[calc(1440*var(--u))] max-w-full min-h-[calc(938*var(--u))] mx-auto">
 
-        {/* 1. Top Header Bar: Clean Nav Pill & Status */}
-        <div className="absolute top-[calc(40*var(--u))] left-[calc(57*var(--u))] right-[calc(57*var(--u))] flex items-center justify-between z-30 max-md:static max-md:pt-5 max-md:px-5">
-          {/* Navigation Pill with Fixed Hover Color contrast */}
-          <nav
-            ref={navContainerRef}
-            className="relative h-[calc(48*var(--u))] max-md:h-[42px] bg-white rounded-full inline-flex items-center p-[calc(5*var(--u))] shadow-[0_4px_20px_rgba(0,0,0,0.06)] border border-black/5"
-            onMouseLeave={() => {
-              setHoveredTab(null);
-              if (navContainerRef.current) {
-                const activeEl = navContainerRef.current.querySelector<HTMLElement>(".nav-btn-active");
-                if (activeEl) updateSliderPosition(activeEl);
-              }
-            }}
-          >
-            {/* Sliding black indicator */}
-            <div
-              className="absolute top-[calc(5*var(--u))] left-0 h-[calc(38*var(--u))] max-md:h-[32px] bg-black rounded-full pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
-              style={{
-                width: `${sliderStyle.width}px`,
-                transform: sliderStyle.transform,
-              }}
-            />
-
-            {navItems.map((item) => {
-              const isActive = activeTab === item.label;
-              const isHovered = hoveredTab === item.label;
-              const isHighlighted = hoveredTab !== null ? isHovered : isActive;
-
-              return (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className={`relative z-10 px-[calc(18*var(--u))] max-md:px-3 text-[calc(13.5*var(--u))] max-md:text-xs font-medium h-full flex items-center justify-center rounded-full transition-colors duration-200 cursor-pointer ${
-                    isActive ? "nav-btn-active " : ""
-                  }${isHighlighted ? "text-white font-semibold" : "text-[#111111]"}`}
-                  onMouseEnter={(e) => {
-                    setHoveredTab(item.label);
-                    updateSliderPosition(e.currentTarget);
-                  }}
-                  onClick={(e) => {
-                    setActiveTab(item.label);
-                    updateSliderPosition(e.currentTarget);
-                  }}
-                >
-                  {item.label}
-                </a>
-              );
-            })}
-          </nav>
-
-          {/* Right: Identity & Contact CTA */}
-          <div className="flex items-center gap-[calc(18*var(--u))] max-md:hidden">
-            <span className="text-[calc(13.5*var(--u))] font-medium text-[#111111]/80">
-              {displayName} (@{username}) · FPT University
-            </span>
-
-            <a
-              href="#contact"
-              className="h-[calc(44*var(--u))] px-[calc(22*var(--u))] bg-black text-white rounded-full text-[calc(13.5*var(--u))] font-medium flex items-center gap-2 hover:-translate-y-0.5 hover:bg-zinc-800 transition-all shadow-sm"
-            >
-              <span>Contact Me</span>
-              <ArrowUpRight size={14} />
-            </a>
-          </div>
-
-          {/* Mobile Contact Quick Button */}
-          <a
-            href="#contact"
-            className="md:hidden w-10 h-10 rounded-full bg-black text-white flex items-center justify-center hover:bg-zinc-800 transition-colors shadow-sm"
-          >
-            <ArrowUpRight size={16} />
-          </a>
-        </div>
-
-        {/* 2. Hero Photo (myic2.jpg - Full body with basketball, generous headroom, head never touches top bar) */}
+        {/* 1. Hero Photo (myic2.jpg - Full body with basketball, generous headroom below floating pill) */}
         <div
           ref={photoWrapRef}
-          className="absolute left-1/2 -translate-x-1/2 top-[calc(65*var(--u))] w-[calc(540*var(--u))] h-[calc(860*var(--u))] z-10 pointer-events-none max-md:relative max-md:left-0 max-md:translate-x-0 max-md:top-0 max-md:w-full max-md:h-[500px] max-md:mt-6"
+          className="absolute left-1/2 -translate-x-1/2 top-[calc(50*var(--u))] w-[calc(540*var(--u))] h-[calc(860*var(--u))] z-10 pointer-events-none max-md:relative max-md:left-0 max-md:translate-x-0 max-md:top-0 max-md:w-full max-md:h-[500px] max-md:mt-4"
           style={{
             WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 88%, transparent 100%)",
             maskImage: "linear-gradient(to bottom, black 0%, black 88%, transparent 100%)",
@@ -158,8 +50,8 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
           />
         </div>
 
-        {/* 3. Left Column: Title "SOFTWARE ENGINEERING" (Fully visible, not covered), Commits & Repos Card */}
-        <div className="absolute left-[calc(57*var(--u))] top-[calc(170*var(--u))] w-[calc(400*var(--u))] z-30 max-md:static max-md:w-full max-md:px-5 max-md:mt-8">
+        {/* 2. Left Column: Title "SOFTWARE ENGINEERING" (Fully visible, not covered), Commits & Repos Card */}
+        <div className="absolute left-[calc(57*var(--u))] top-[calc(140*var(--u))] w-[calc(400*var(--u))] z-30 max-md:static max-md:w-full max-md:px-5 max-md:mt-6">
           
           {/* Main Title: SOFTWARE ENGINEERING (Not covered!) */}
           <div className="overflow-visible leading-none">
@@ -171,7 +63,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
             </span>
           </div>
           <div className="text-[calc(14*var(--u))] font-mono font-medium text-[#111111]/70 mt-2">
-            FPT University · 2026 Cohort
+            {displayName} (@{username}) · FPT University
           </div>
 
           {/* About Copy */}
@@ -203,7 +95,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
             </a>
           </div>
 
-          {/* Commits & Repos Card (Replaced Core Tech Capabilities, NO GPA, NO SE K18) */}
+          {/* Commits & Repos Card */}
           <div className="mt-[calc(28*var(--u))] max-md:mt-6 bg-[#171717] text-white rounded-[calc(12*var(--u))] p-[calc(18*var(--u))] max-md:p-4 shadow-xl border border-white/5 w-full">
             <div className="text-[calc(11.5*var(--u))] font-semibold text-white/60 uppercase tracking-wider mb-3">
               GitHub Metrics & Code Output
@@ -251,8 +143,8 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
 
         </div>
 
-        {/* 4. Right Column: Featured Capstones (SkinSync & VSTEP) */}
-        <div className="absolute right-[calc(57*var(--u))] top-[calc(170*var(--u))] w-[calc(340*var(--u))] z-30 max-md:static max-md:w-full max-md:px-5 max-md:mt-8">
+        {/* 3. Right Column: Featured Capstones (SkinSync & VSTEP) */}
+        <div className="absolute right-[calc(57*var(--u))] top-[calc(140*var(--u))] w-[calc(340*var(--u))] z-30 max-md:static max-md:w-full max-md:px-5 max-md:mt-8">
           
           {/* Availability Pill */}
           <div className="inline-flex items-center gap-2 px-[calc(14*var(--u))] h-[calc(36*var(--u))] bg-white/80 backdrop-blur-md border border-white/90 rounded-full text-[calc(12.5*var(--u))] font-semibold text-[#111111] shadow-sm">
@@ -333,7 +225,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
 
         </div>
 
-        {/* 5. Bottom Architectural Wordmark Strip */}
+        {/* 4. Bottom Architectural Wordmark Strip */}
         <div className="absolute left-0 w-full bottom-[calc(20*var(--u))] flex items-center justify-center gap-[calc(28*var(--u))] text-[calc(12.5*var(--u))] tracking-[0.14em] font-medium text-[#111111]/70 uppercase z-20 pointer-events-none max-md:hidden">
           <span>Clean Architecture</span>
           <span className="opacity-30">·</span>

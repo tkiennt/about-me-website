@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, RefreshCw } from "lucide-react";
-import { GithubIcon } from "./Icons";
+import React, { useState, useEffect, useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 interface NavigationProps {
   mode: string;
@@ -11,7 +10,7 @@ interface NavigationProps {
   loading: boolean;
 }
 
-const navLinks = [
+const navItems = [
   { label: "About", href: "#hero" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
@@ -20,130 +19,129 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-export const Navigation: React.FC<NavigationProps> = ({
-  mode,
-  onModeChange,
-  username,
-  isLive,
-  onRefresh,
-  loading,
-}) => {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export const Navigation: React.FC<NavigationProps> = ({ username }) => {
+  const [sliderStyle, setSliderStyle] = useState<{ width: number; transform: string }>({
+    width: 60,
+    transform: "translateX(0px)",
+  });
+  const [activeTab, setActiveTab] = useState<string>("About");
+  const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const navContainerRef = useRef<HTMLElement>(null);
+
+  // Position sliding indicator
+  const updateSliderPosition = (target: HTMLElement | null) => {
+    if (!target || !navContainerRef.current) return;
+    const parentRect = navContainerRef.current.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    const offset = targetRect.left - parentRect.left;
+    setSliderStyle({
+      width: targetRect.width,
+      transform: `translateX(${offset}px)`,
+    });
+  };
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    if (navContainerRef.current) {
+      const activeEl = navContainerRef.current.querySelector<HTMLElement>(".nav-btn-active");
+      if (activeEl) updateSliderPosition(activeEl);
+    }
   }, []);
 
+  // Update active tab on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navItems.map((item) => item.href.substring(1));
+      const scrollPos = window.scrollY + 200;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.offsetTop <= scrollPos) {
+          const currentLabel = navItems[i].label;
+          setActiveTab(currentLabel);
+          if (!hoveredTab && navContainerRef.current) {
+            const activeEl = navContainerRef.current.querySelectorAll<HTMLElement>(".nav-link-item")[i];
+            if (activeEl) updateSliderPosition(activeEl);
+          }
+          break;
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hoveredTab]);
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[#09090b]/85 backdrop-blur-md border-b border-white/10 py-3 shadow-md"
-          : "bg-transparent py-5"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo / Brand */}
+    <header className="fixed top-5 left-0 right-0 z-50 flex items-center justify-center px-4 pointer-events-none">
+      <div className="pointer-events-auto flex items-center gap-2.5 max-md:gap-2">
+        
+        {/* Brand Initial Floating Pill */}
         <a
           href="#hero"
-          className="flex items-center gap-3 group focus:outline-hidden"
+          className="w-11 h-11 max-md:w-10 max-md:h-10 rounded-full bg-white text-black border border-black/10 flex items-center justify-center font-bold text-xs tracking-wider shadow-[0_4px_25px_rgba(0,0,0,0.18)] hover:scale-105 transition-all"
+          title={`Trung Kiên (@${username})`}
         >
-          <div className="w-9 h-9 rounded-xl bg-zinc-900 border border-white/20 flex items-center justify-center font-bold text-sm text-white shadow-sm group-hover:border-white transition-colors">
-            TK
-          </div>
-          <div className="flex flex-col text-left">
-            <span className="font-semibold text-sm tracking-tight text-white">
-              Trung Kiên
-            </span>
-            <span className="text-[11px] font-mono text-zinc-400 flex items-center gap-1.5">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${isLive ? "bg-emerald-400 animate-ping" : "bg-amber-400"}`}></span>
-                <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${isLive ? "bg-emerald-400" : "bg-amber-500"}`}></span>
-              </span>
-              @{username}
-            </span>
-          </div>
+          TK
         </a>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="px-3.5 py-1.5 text-sm text-zinc-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
+        {/* Floating Segmented Pill Nav with Sliding Indicator */}
+        <nav
+          ref={navContainerRef}
+          className="relative h-11 max-md:h-10 bg-white/95 backdrop-blur-md rounded-full inline-flex items-center p-1 shadow-[0_6px_30px_rgba(0,0,0,0.22)] border border-black/10"
+          onMouseLeave={() => {
+            setHoveredTab(null);
+            if (navContainerRef.current) {
+              const activeEl = navContainerRef.current.querySelector<HTMLElement>(".nav-btn-active");
+              if (activeEl) updateSliderPosition(activeEl);
+            }
+          }}
+        >
+          {/* Sliding black background indicator */}
+          <div
+            className="absolute top-1 left-0 h-9 max-md:h-8 bg-black rounded-full pointer-events-none transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+            style={{
+              width: `${sliderStyle.width}px`,
+              transform: sliderStyle.transform,
+            }}
+          />
+
+          {navItems.map((item) => {
+            const isActive = activeTab === item.label;
+            const isHovered = hoveredTab === item.label;
+            const isHighlighted = hoveredTab !== null ? isHovered : isActive;
+
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`nav-link-item relative z-10 px-3.5 max-md:px-2.5 text-xs font-semibold h-full flex items-center justify-center rounded-full transition-colors duration-200 cursor-pointer ${
+                  isActive ? "nav-btn-active " : ""
+                }${isHighlighted ? "text-white font-bold" : "text-[#111111] hover:text-black"}`}
+                onMouseEnter={(e) => {
+                  setHoveredTab(item.label);
+                  updateSliderPosition(e.currentTarget);
+                }}
+                onClick={(e) => {
+                  setActiveTab(item.label);
+                  updateSliderPosition(e.currentTarget);
+                }}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </nav>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-2.5">
-          {/* Live API sync badge / refresh */}
-          <button
-            onClick={onRefresh}
-            disabled={loading}
-            title={`Fetch GitHub data for @${username}`}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono rounded-full bg-zinc-900 border border-white/15 text-zinc-300 hover:border-white/40 hover:text-white transition-colors cursor-pointer"
-          >
-            <RefreshCw size={12} className={`text-white ${loading ? "animate-spin" : ""}`} />
-            <span>Live Sync</span>
-          </button>
+        {/* Quick Contact CTA Floating Pill */}
+        <a
+          href="#contact"
+          className="hidden sm:inline-flex items-center gap-1.5 h-11 px-4 rounded-full bg-black text-white text-xs font-semibold border border-white/15 shadow-[0_4px_25px_rgba(0,0,0,0.25)] hover:-translate-y-0.5 hover:bg-zinc-900 transition-all"
+        >
+          <span>Contact</span>
+          <ArrowUpRight size={13} />
+        </a>
 
-          {/* GitHub Profile Icon Link */}
-          <a
-            href={`https://github.com/${username}`}
-            target="_blank"
-            rel="noreferrer"
-            title="GitHub Profile"
-            className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
-          >
-            <GithubIcon className="w-4 h-4" />
-          </a>
-
-          {/* Theme Toggle Button */}
-          <button
-            onClick={onModeChange}
-            aria-label="Toggle Theme"
-            className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-          >
-            {mode === "dark" ? <Sun size={17} /> : <Moon size={17} />}
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Open mobile navigation menu"
-            className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
       </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-zinc-950/95 backdrop-blur-xl border-b border-white/10 px-6 py-5 transition-all text-left">
-          <nav className="flex flex-col gap-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm text-zinc-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      )}
     </header>
   );
 };
