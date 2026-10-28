@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Navigation } from "./components/Navigation";
-import { Main } from "./components/Main";
+import { EditorialHero } from "./components/EditorialHero";
+import { EditorialManifesto } from "./components/EditorialManifesto";
+import { EditorialMilestones } from "./components/EditorialMilestones";
 import { Timeline } from "./components/Timeline";
 import { Project } from "./components/Project";
 import { GitHubStats } from "./components/GitHubStats";
@@ -12,24 +14,15 @@ import FadeIn from "./components/FadeIn";
 import { useGitHubRealtime } from "./hooks/useGitHubRealtime";
 
 export const App: React.FC = () => {
-  const [mode, setMode] = useState<string>(() => {
-    try {
-      return localStorage.getItem("theme") || "dark";
-    } catch {
-      return "dark";
-    }
-  });
+  const [mode, setMode] = useState<string>("dark");
 
-  // Real-time GitHub data hook powered by configurable variable (no hardcoding)
   const {
     username,
     profile,
     repos,
-    events,
     stats,
     loading,
     isLive,
-    lastUpdated,
     refresh,
   } = useGitHubRealtime();
 
@@ -46,16 +39,12 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
-    if (mode === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [mode]);
+    document.documentElement.classList.add("dark");
+  }, []);
 
   return (
-    <div className={`main-container ${mode === "dark" ? "dark-mode dark" : "light-mode"}`}>
-      {/* 1. Navigation Header */}
+    <div className="main-container dark-mode dark bg-black text-[#f4f4f4] min-h-screen selection:bg-white selection:text-black">
+      {/* Top Floating Header for when scrolled past Hero */}
       <Navigation
         mode={mode}
         onModeChange={handleModeChange}
@@ -65,51 +54,52 @@ export const App: React.FC = () => {
         loading={loading}
       />
 
-      {/* 2. Main Content Stream */}
-      <FadeIn transitionDuration={600}>
-        <main>
-          {/* Hero Section */}
-          <Main
-            profile={profile}
-            stats={stats}
-            username={username}
-            isLive={isLive}
-            loading={loading}
-          />
+      {/* Main Content Stream */}
+      <main className="relative w-full overflow-hidden">
+        {/* 1. Orvante Editorial Hero Section (1440 × 938u) */}
+        <EditorialHero
+          profile={profile}
+          stats={stats}
+          username={username}
+        />
 
-          {/* Work & Project Timeline (Experience) */}
+        {/* 2. Orvante Black Bar (111u) & 3 Highlighted Repositories (Pill 3-Column Layout) */}
+        <EditorialManifesto />
+
+        {/* 3. Orvante Milestones (Commits, Repos, Pull Requests) */}
+        <EditorialMilestones stats={stats} />
+
+        <FadeIn transitionDuration={600}>
+          {/* 4. Experience & Career Milestones */}
           <Timeline />
 
-          {/* Selected Featured Projects */}
+          {/* 5. Featured Projects Showcase */}
           <Project />
 
-          {/* Real-time GitHub Analytics & Heatmap */}
+          {/* 6. GitHub Stats & Activity */}
           <GitHubStats
             username={username}
             stats={stats}
-            events={events}
-            isLive={isLive}
-            lastUpdated={lastUpdated}
             onRefresh={refresh}
             loading={loading}
           />
 
-          {/* Live Public Repositories Explorer */}
+          {/* 7. Repositories Explorer */}
           <RepoExplorer
             repos={repos}
             username={username}
             loading={loading}
           />
 
-          {/* Technical Capabilities & Stack */}
+          {/* 8. Technical Skills & Capabilities */}
           <Expertise />
 
-          {/* Minimal Contact Section */}
+          {/* 9. Minimal Contact Form */}
           <Contact username={username} />
-        </main>
-      </FadeIn>
+        </FadeIn>
+      </main>
 
-      {/* 3. Footer with victoreke.com attribution */}
+      {/* Footer */}
       <Footer username={username} />
     </div>
   );

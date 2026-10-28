@@ -1,5 +1,5 @@
 import React from "react";
-import { Mail, ExternalLink, ArrowUp } from "lucide-react";
+import { Mail, ArrowUp } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./Icons";
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -14,21 +14,21 @@ export const Footer: React.FC<FooterProps> = ({ username }) => {
   };
 
   return (
-    <footer className="border-t border-zinc-800/80 light-mode:border-zinc-200 py-12 bg-zinc-950/60 light-mode:bg-zinc-50">
+    <footer className="border-t border-white/10 py-12 bg-black text-[#f4f4f4]">
       <div className="max-w-6xl mx-auto px-6">
         
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-zinc-800/60 light-mode:border-zinc-200 text-left">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10 text-left">
           {/* Brand & Identity */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center font-bold text-xs text-[#33E092]">
+            <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center font-bold text-xs text-white">
               TK
             </div>
             <div>
-              <div className="text-sm font-bold text-zinc-100 light-mode:text-zinc-900">
+              <div className="text-sm font-bold text-white font-editorial-display tracking-tight">
                 Trung Kiên
               </div>
               <div className="text-xs font-mono text-zinc-500">
-                Software Engineer & Developer
+                Software Engineering · FPT University
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@ export const Footer: React.FC<FooterProps> = ({ username }) => {
               target="_blank"
               rel="noreferrer"
               title="GitHub"
-              className="p-2 rounded-lg bg-zinc-900 light-mode:bg-white border border-zinc-800 light-mode:border-zinc-200 text-zinc-400 hover:text-zinc-100 hover:border-[#33E092]/50 transition-colors"
+              className="p-2 rounded-lg bg-[#0e0e0e] border border-white/15 text-zinc-400 hover:text-white hover:border-white transition-colors"
             >
               <GithubIcon className="w-4 h-4" />
             </a>
@@ -50,7 +50,7 @@ export const Footer: React.FC<FooterProps> = ({ username }) => {
               target="_blank"
               rel="noreferrer"
               title="LinkedIn"
-              className="p-2 rounded-lg bg-zinc-900 light-mode:bg-white border border-zinc-800 light-mode:border-zinc-200 text-zinc-400 hover:text-zinc-100 hover:border-[#33E092]/50 transition-colors"
+              className="p-2 rounded-lg bg-[#0e0e0e] border border-white/15 text-zinc-400 hover:text-white hover:border-white transition-colors"
             >
               <LinkedinIcon className="w-4 h-4" />
             </a>
@@ -58,7 +58,7 @@ export const Footer: React.FC<FooterProps> = ({ username }) => {
             <a
               href="mailto:nguyentotrungkien@gmail.com"
               title="Email"
-              className="p-2 rounded-lg bg-zinc-900 light-mode:bg-white border border-zinc-800 light-mode:border-zinc-200 text-zinc-400 hover:text-zinc-100 hover:border-[#33E092]/50 transition-colors"
+              className="p-2 rounded-lg bg-[#0e0e0e] border border-white/15 text-zinc-400 hover:text-white hover:border-white transition-colors"
             >
               <Mail size={16} />
             </a>
@@ -67,31 +67,22 @@ export const Footer: React.FC<FooterProps> = ({ username }) => {
             <button
               onClick={scrollToTop}
               title="Scroll to top"
-              className="p-2 rounded-lg bg-zinc-900 light-mode:bg-white border border-zinc-800 light-mode:border-zinc-200 text-zinc-400 hover:text-[#33E092] hover:border-[#33E092]/50 transition-colors cursor-pointer ml-2"
+              className="p-2 rounded-lg bg-[#0e0e0e] border border-white/15 text-zinc-400 hover:text-white hover:border-white transition-colors cursor-pointer ml-2"
             >
               <ArrowUp size={16} />
             </button>
           </div>
         </div>
 
-        {/* Attribution & Copyright */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-xs text-zinc-500 font-mono">
-          <p>© {CURRENT_YEAR} Trung Kiên. All rights reserved.</p>
+        {/* Bottom Credits & Copyright */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-zinc-500">
+          <div>
+            © {CURRENT_YEAR} Trung Kiên. Strict Monochrome Editorial Architecture.
+          </div>
 
-          {/* Victor Eke attribution as requested in license */}
-          <p className="flex items-center gap-1.5 flex-wrap justify-center sm:justify-end">
-            <span>Theme inspired by</span>
-            <a
-              href="https://victoreke.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#33E092] hover:underline font-semibold inline-flex items-center gap-0.5"
-            >
-              <span>victoreke.com</span>
-              <ExternalLink size={10} />
-            </a>
-            <span>• Built with React & Tailwind CSS</span>
-          </p>
+          <div className="flex items-center gap-4">
+            <span>Built with React 19 & Tailwind CSS</span>
+          </div>
         </div>
 
       </div>

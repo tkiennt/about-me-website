@@ -23,7 +23,7 @@ const timelineData: TimelineItem[] = [
     synopsis: "Engineered high-concurrency blood matching and emergency donor scheduling platform for regional medical centers.",
     highlights: [
       "Built donor-recipient compatibility matching algorithm and automated dispatch queue",
-      "Designed Manager Dashboard with real-time blood unit storage tracking and audit logs",
+      "Designed Manager Dashboard with automated blood unit storage tracking and audit logs",
       "Integrated secure notification API and multi-role authentication flow",
     ],
     techStack: ["TypeScript", "React", "Java Spring Boot", "MySQL", "Tailwind CSS"],
@@ -33,7 +33,7 @@ const timelineData: TimelineItem[] = [
     id: "vstep-writing-lab",
     role: "Fullstack & GenAI Engineer",
     organization: "VSTEP AI Automated Essay Grading System",
-    period: "2024",
+    period: "2024 - 2026",
     category: "AI & Web System",
     synopsis: "Automated scoring and lexical feedback web platform for national English proficiency writing tests.",
     highlights: [
@@ -42,21 +42,21 @@ const timelineData: TimelineItem[] = [
       "Built interactive student feedback dashboard with grammar highlighting and score breakdowns",
     ],
     techStack: ["React", "TypeScript", "Google Gemini API", "Tailwind CSS", "Node.js"],
-    githubUrl: "https://github.com/tkiennt",
+    githubUrl: "https://github.com/tkiennt/vstep-writing-lab",
   },
   {
     id: "skinsync",
     role: "Fullstack Engineer",
-    organization: "SkinSync Cosmetics & Booking Service",
-    period: "2024",
-    category: "Fullstack & Payments",
-    synopsis: "E-commerce and consultation scheduling system built with Clean Architecture principles.",
+    organization: "SkinSync Cosmetics & Booking Ecosystem",
+    period: "2024 - 2026",
+    category: "Fullstack & Mobile",
+    synopsis: "Cross-platform skincare consultation and conflict detection system built with Clean Architecture.",
     highlights: [
       "Architected backend using ASP.NET Core Clean Architecture and Entity Framework Core",
+      "Synchronized Flutter mobile client with C# .NET 9 backend and Supabase database",
       "Integrated PayOS QR gateway for seamless automated transaction validation",
-      "Implemented JWT authentication and responsive client dashboard in React",
     ],
-    techStack: ["C#", ".NET 9", "React", "SQL Server", "PayOS", "REST API"],
+    techStack: ["C#", ".NET 9", "Flutter", "React", "SQL Server", "PayOS"],
     githubUrl: "https://github.com/tkiennt/SkinSync",
   },
   {
@@ -91,100 +91,96 @@ const timelineData: TimelineItem[] = [
 
 export const Timeline: React.FC = () => {
   return (
-    <section id="experience" className="py-20 md:py-28 border-t border-zinc-800/80 light-mode:border-zinc-200">
+    <section id="experience" className="py-20 md:py-28 border-t border-white/10 bg-black text-[#f4f4f4]">
       <div className="max-w-6xl mx-auto px-6">
         
-        {/* Section Header - Victor Eke Style */}
+        {/* Section Header */}
         <div className="flex flex-col items-start mb-14 text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#33E092]/10 border border-[#33E092]/30 text-xs font-mono font-semibold text-[#33E092] mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-mono font-semibold text-white mb-3">
             <Briefcase className="w-3.5 h-3.5" />
             <span>Career & Project Milestones</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 light-mode:text-zinc-900 tracking-tight">
+          <h2 className="font-editorial-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
             Work & Engineering Experience
           </h2>
-          <p className="mt-2 text-sm sm:text-base text-zinc-400 light-mode:text-zinc-600 max-w-2xl">
-            Key software projects and systems I've built, emphasizing clean code, production architecture, and real impact.
+          <p className="mt-2 text-sm sm:text-base text-zinc-400 max-w-2xl font-normal leading-relaxed">
+            Key software projects and systems engineered with focus on clean code, production architecture, and verified reliability.
           </p>
         </div>
 
         {/* Timeline Items */}
-        <div className="relative border-l border-zinc-800 light-mode:border-zinc-200 ml-4 sm:ml-6 space-y-12">
+        <div className="relative border-l border-white/15 ml-4 sm:ml-6 space-y-12">
           {timelineData.map((item) => (
             <div key={item.id} className="relative pl-7 sm:pl-9 group text-left">
               {/* Timeline Indicator Dot */}
-              <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-zinc-950 light-mode:bg-white border-2 border-zinc-600 group-hover:border-[#33E092] group-hover:bg-[#33E092] transition-colors" />
+              <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-black border-2 border-zinc-500 group-hover:border-white group-hover:bg-white transition-colors" />
 
               {/* Item Card */}
-              <div className="p-6 rounded-2xl bg-zinc-900/60 light-mode:bg-white border border-zinc-800/80 light-mode:border-zinc-200 backdrop-blur-md shadow-xs card-hover-lift">
+              <div className="p-6 sm:p-7 rounded-2xl bg-[#0e0e0e] border border-white/15 hover:border-white/35 backdrop-blur-md transition-all duration-300 shadow-xl">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                   <div>
-                    {/* 1. TÊN DỰ ÁN NỔI BẬT HƠN HẾT (Prominent Title) */}
-                    <h3 className="text-xl sm:text-2xl font-black text-zinc-100 light-mode:text-zinc-900 group-hover:text-[#33E092] transition-colors tracking-tight leading-snug">
-                      {item.organization}
+                    <h3 className="font-editorial-display text-xl sm:text-2xl font-bold text-white tracking-tight">
+                      {item.role}
                     </h3>
-                    {/* 2. TÊN VAI TRÒ LÀ SUBHEADING (Clear Subheading) */}
-                    <div className="text-xs sm:text-sm font-semibold text-[#33E092] mt-1.5 flex flex-wrap items-center gap-1.5 font-mono">
-                      <span className="px-2.5 py-0.5 rounded-md bg-[#33E092]/10 border border-[#33E092]/30 text-[#33E092]">
-                        Vai trò: {item.role}
-                      </span>
-                      <span className="text-zinc-400 light-mode:text-zinc-500 font-normal">
-                        • {item.category}
-                      </span>
-                    </div>
+                    <p className="text-sm font-medium text-zinc-300 mt-0.5">
+                      {item.organization}
+                    </p>
                   </div>
 
-                  <div className="flex items-center gap-2 self-start sm:self-auto">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-800 light-mode:bg-zinc-100 text-xs font-mono text-zinc-300 light-mode:text-zinc-700">
-                      <Calendar size={12} className="text-[#33E092]" />
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-1 text-xs font-mono font-medium rounded-full bg-white/10 text-white border border-white/10">
+                      {item.category}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs font-mono text-zinc-400">
+                      <Calendar size={12} />
                       {item.period}
                     </span>
-
-                    {item.githubUrl && (
-                      <a
-                        href={item.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title="View Source on GitHub"
-                        className="p-1.5 rounded-lg bg-zinc-800 light-mode:bg-zinc-100 text-zinc-400 hover:text-[#33E092] transition-colors"
-                      >
-                        <ExternalLink size={14} />
-                      </a>
-                    )}
                   </div>
                 </div>
 
-                {/* Synopsis */}
-                <p className="text-sm text-zinc-300 light-mode:text-zinc-700 mb-4 leading-relaxed">
+                <p className="text-sm text-zinc-400 leading-relaxed mb-4">
                   {item.synopsis}
                 </p>
 
-                {/* Bullets */}
-                <ul className="space-y-1.5 mb-5 text-xs text-zinc-400 light-mode:text-zinc-600">
-                  {item.highlights.map((highlight, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <CheckCircle2 size={13} className="text-[#33E092] mt-0.5 shrink-0" />
-                      <span>{highlight}</span>
-                    </li>
+                {/* Highlights */}
+                <div className="space-y-2 mb-5">
+                  {item.highlights.map((hl, i) => (
+                    <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-zinc-300">
+                      <CheckCircle2 size={15} className="text-white mt-0.5 shrink-0" />
+                      <span>{hl}</span>
+                    </div>
                   ))}
-                </ul>
+                </div>
 
-                {/* Tech Pills */}
-                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-zinc-800/50 light-mode:border-zinc-100">
-                  {item.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2.5 py-0.5 rounded-md bg-zinc-800/50 light-mode:bg-zinc-100 text-[11px] font-mono text-zinc-300 light-mode:text-zinc-700"
+                {/* Tech Stack & Links */}
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-white/10">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {item.techStack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-1 text-xs font-mono rounded-md bg-white/5 border border-white/10 text-zinc-300"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {item.githubUrl && (
+                    <a
+                      href={item.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono text-white hover:underline transition-colors"
                     >
-                      {tech}
-                    </span>
-                  ))}
+                      <span>Repository</span>
+                      <ExternalLink size={12} />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

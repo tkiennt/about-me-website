@@ -37,20 +37,20 @@ const skillCategories: SkillCategory[] = [
 
 export const Expertise: React.FC = () => {
   return (
-    <section id="skills" className="py-20 md:py-28 border-t border-zinc-800/80 light-mode:border-zinc-200">
+    <section id="skills" className="py-20 md:py-28 border-t border-white/10 bg-black text-[#f4f4f4]">
       <div className="max-w-6xl mx-auto px-6">
         
         {/* Section Header */}
         <div className="flex flex-col items-start mb-14 text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#33E092]/10 border border-[#33E092]/30 text-xs font-mono font-semibold text-[#33E092] mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-mono font-semibold text-white mb-3">
             <Code2 className="w-3.5 h-3.5" />
             <span>Technical Capabilities</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-100 light-mode:text-zinc-900 tracking-tight">
+          <h2 className="font-editorial-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight uppercase">
             Skills & Core Stack
           </h2>
-          <p className="mt-2 text-sm sm:text-base text-zinc-400 light-mode:text-zinc-600 max-w-2xl">
-            Technologies and frameworks I utilize to architect, build, and ship end-to-end software solutions.
+          <p className="mt-2 text-sm sm:text-base text-zinc-400 max-w-2xl font-normal leading-relaxed">
+            Technologies and frameworks utilized to architect, build, and ship end-to-end software solutions.
           </p>
         </div>
 
@@ -62,29 +62,29 @@ export const Expertise: React.FC = () => {
             return (
               <div
                 key={category.title}
-                className="p-6 rounded-2xl bg-zinc-900/60 light-mode:bg-white border border-zinc-800/80 light-mode:border-zinc-200 backdrop-blur-md shadow-xs card-hover-lift"
+                className="p-6 sm:p-7 rounded-2xl bg-[#0e0e0e] border border-white/15 hover:border-white/35 backdrop-blur-md shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-zinc-800/80 light-mode:bg-zinc-100 border border-zinc-700/60 light-mode:border-zinc-200 flex items-center justify-center text-[#33E092]">
-                    <Icon size={20} />
+                  <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center text-white">
+                    <Icon size={18} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-base text-zinc-100 light-mode:text-zinc-900">
+                    <h3 className="font-editorial-display text-lg font-bold text-white tracking-tight">
                       {category.title}
                     </h3>
                   </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-zinc-400 light-mode:text-zinc-600 mb-5 leading-relaxed">
+                <p className="text-xs sm:text-sm text-zinc-400 mb-5 leading-relaxed">
                   {category.description}
                 </p>
 
                 {/* Skill Badges */}
-                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-zinc-800/50 light-mode:border-zinc-100">
+                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/10">
                   {category.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-2.5 py-1 rounded-md bg-zinc-800/60 light-mode:bg-zinc-100 text-xs font-mono text-zinc-300 light-mode:text-zinc-700 hover:text-[#33E092] hover:border-[#33E092]/30 border border-transparent transition-colors"
+                      className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-zinc-300 hover:text-white hover:border-white/30 transition-colors"
                     >
                       {skill}
                     </span>
