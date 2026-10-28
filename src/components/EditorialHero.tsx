@@ -31,7 +31,7 @@ export const EditorialHero: React.FC<EditorialHeroProps> = ({
   const displayName = profile?.name || "Trung Kiên";
 
   return (
-    <header className="hero-editorial-section relative w-full bg-[#dadada] text-[#111111] overflow-hidden pt-20" id="hero">
+    <header className="hero-editorial-section relative w-full bg-[#dadada] text-[#111111] overflow-hidden pt-28 max-md:pt-20" id="hero">
       <div className="hero-artboard relative w-[calc(1440*var(--u))] max-w-full min-h-[calc(938*var(--u))] mx-auto">
 
         {/* 1. Hero Photo (myic2.jpg - Full body with basketball, generous headroom below floating pill) */}
